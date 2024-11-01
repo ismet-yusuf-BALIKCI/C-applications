@@ -1,0 +1,41 @@
+create TABLE Musteriler(
+MusteriID SERIAL PRIMARY KEY,
+Ad VARCHAR(50),
+Soyad VARCHAR(50),
+Sehir VARCHAR(50)
+);
+
+create TABLE Siparisler(
+SiparisID SERIAL PRIMARY KEY,
+MusteriID INT REFERENCES Musteriler(MusteriID),
+SiparisTarihi  DATE,
+Urun VARCHAR(50),
+Fiyat NUMERIC(10,2)
+);
+
+INSERT INTO Musteriler (Ad, Soyad, Sehir) VALUES
+('Ahmet', 'Yılmaz', 'İstanbul'),
+('Mehmet', 'Kaya', 'Ankara'),
+('Ayşe', 'Demir', 'İzmir'),
+('Fatma', 'Çelik', 'Bursa'),
+('Ali', 'Arslan', 'Antalya');
+
+INSERT INTO Siparisler (MusteriID, SiparisTarihi, Urun, Fiyat) VALUES
+(1, '2023-10-01', 'Laptop', 7500),
+(1, '2023-10-03', 'Telefon', 5000),
+(2, '2023-09-21', 'Tablet', 3000),
+(3, '2023-09-30', 'Televizyon', 4500),
+(4, '2023-10-10', 'Kulaklık', 500);
+
+
+select * from Siparisler 
+where MusteriID =(SELECT MusteriID from Musteriler where Ad='Ahmet');
+
+select * from Siparisler 
+WHERE Urun LIKE '%Telefon%';
+
+select Ad,Soyad from Musteriler
+WHERE Sehir='Ankara';
+
+select Urun from Siparisler 
+where SiparisTarihi between '2023-10-01' and '2023-10-31' order by Fiyat ASC;
